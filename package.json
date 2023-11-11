@@ -1,0 +1,26 @@
+{
+  "name": "patioservice",
+  "version": "1.0.0",
+  "description": "Web service from Patio",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./index.js http://localhost:3001",
+    "swagger-autogen": "node swagger.js"
+  },
+  "author": "Level33",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "prisma": "^4.12.0",
+    "swagger-autogen": "^2.23.1",
+    "swagger-ui-express": "^4.6.2"
+  },
+  "dependencies": {
+    "@prisma/client": "^4.12.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0"
+  }
+}

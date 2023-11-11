@@ -1,0 +1,66 @@
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv").config;
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger_output.json");
+
+const app = express();
+
+// read in json
+app.use(express.json());
+
+// solve cors
+// obs: replace localhost with frontend ip
+app.use(cors({ credentials: true, origin: "http://localhost:5000" }));
+
+const port = 3002;
+
+app.use("/doc", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+
+// routes
+const userRoutes = require("./routes/userRoutes");
+const veiculoRoutes = require("./routes/veiculoRoutes");
+const leilaoRoutes = require("./routes/leilaoRoutes");
+const liberacaoRoutes = require("./routes/liberacaoRoutes");
+const orgaoRoutes = require("./routes/orgaoRoutes");
+const reboqueRoutes = require("./routes/reboqueRoutes");
+const leiloeirosRoutes = require("./routes/leiloeirosRoutes");
+const guinchoRoutes = require("./routes/guinchoRoutes");
+const entradasRoutes = require("./routes/entradaRoutes");
+const lacresRoutes = require("./routes/lacreRoutes");
+const juntasRoutes = require("./routes/juntaRoutes");
+
+app.use("/users", userRoutes);
+app.use("/veiculos", veiculoRoutes);
+app.use("/leiloes", leilaoRoutes);
+app.use("/liberacoes", liberacaoRoutes);
+app.use("/orgaos", orgaoRoutes);
+app.use("/reboques", reboqueRoutes);
+app.use("/leiloeiros", leiloeirosRoutes);
+app.use("/guinchos", guinchoRoutes);
+app.use("/entradas", entradasRoutes);
+app.use("/lacres", lacresRoutes);
+app.use("/juntas", juntasRoutes);
+
+// route not found
+app.use((req, res, next) => {
+	// return res.send('nice cok')
+	
+  return res.status(404).json({
+    status: "error",
+    success: false,
+    message: "Route not found, please check all the routes in /doc",
+	route: req.url
+  });/**/
+});
+
+
+//app.use("/PatioService", (req, res) => res.send('kdfksfj'));
+
+// handling errors
+const apiErrorHandler = require("./middlewares/apiErrorHandler");
+
+app.use(apiErrorHandler);
+
+// init server
+app.listen(port, () => console.log(`Listening on port: ${port}!`));

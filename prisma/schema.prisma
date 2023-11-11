@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DB_URL")
+}
+
+model grupos {
+  id_grupo   Int       @id(map: "PK_grupos") @default(autoincrement())
+  nome_grupo String    @db.VarChar(50)
+  created_at DateTime? @db.DateTime
+  updated_at DateTime? @db.DateTime
+  removed_at DateTime? @db.DateTime
+}
+
+model perfis {
+  id_perfil   Int       @id(map: "PK_perfis") @default(autoincrement())
+  nome_perfil String    @db.VarChar(50)
+  slug        String    @db.VarChar(3)
+  created_at  DateTime? @db.DateTime
+  updated_at  DateTime? @db.DateTime
+  removed_at  DateTime? @db.DateTime
+}
+
+model permissoes {
+  id_permissao Int       @id(map: "PK_permissoes") @default(autoincrement())
+  id_perfil    Int
+  id_modulo    Int
+  created_at   DateTime? @db.DateTime
+  updated_at   DateTime? @db.DateTime
+  removed_at   DateTime? @db.DateTime
+}
+
+model usuarios {
+  id_usuario Int       @id(map: "PK_usuarios") @default(autoincrement())
+  nome       String    @db.VarChar(50)
+  login      String    @db.VarChar(50)
+  senha      String    @db.VarChar(100)
+  matricula  String    @db.VarChar(50)
+  guerra     String?   @db.VarChar(50)
+  id_grupo   Int
+  id_orgao   Int
+  id_cargo   Int
+  id_perfil  Int
+  cpf        String    @db.VarChar(100)
+  ativo      Boolean?
+  created_at DateTime? @db.DateTime
+  updated_at DateTime? @db.DateTime
+  removed_at DateTime? @db.DateTime
+}
